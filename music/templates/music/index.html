@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <ul>
-        {% for album in albums %}
-            <li><a href="/music/{{ album.id }}/">{{ album.album_title }}</a></li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends 'music/base.html' %}
+
+
+{% block body %}
+<h1>Django app</h1>
+<ul class="list-unstyled">
+    {% for album in albums %}
+        <li><a href="{% url 'music:detail' album.id %}">{{ album.album_title }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

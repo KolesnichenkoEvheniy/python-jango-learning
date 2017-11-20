@@ -3,9 +3,50 @@
 
 {% block body %}
 <h1>Django app</h1>
-<ul class="list-unstyled">
-    {% for album in albums %}
-        <li><a href="{% url 'music:detail' album.id %}">{{ album.album_title }}</a></li>
-    {% endfor %}
+<p>
+    <a href="{% url 'music:album_add' %}" class="btn btn-success">Add</a>
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <td>Title</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for album in albums %}
+            <tr>
+                <td>
+                    <img src="{{ album.image.url }}" width="50" height="50" class="url-responsive">
+                    <a href="{% url 'music:detail' album.id %}">{{ album.album_title }}</a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-default btn-sm btn-favorite">
+                        <span
+                            class="glyphicon glyphicon-star {% if album.is_favorite %}active{% endif %}">
+                        </span>
+                    </a>
+                </td>
+                <td>
+                    <a href="{% url 'music:album_update' album.id %}" class="btn btn-default btn-sm btn-favorite">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+
+                    <form action="{% url 'music:album_delete' album.id %}" method="post" style="display: inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="album_id" value="{{ album.id }}">
+                        <button class="btn btn-sm btn-warning">
+                            <span
+                                class="glyphicon glyphicon-trash">
+                            </span>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 </ul>
 {% endblock %}
